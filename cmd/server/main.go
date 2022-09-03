@@ -19,6 +19,7 @@ import (
 	transactionPayment "tribbie/internal/transaction-payment"
 	"tribbie/internal/trip"
 	tripMember "tribbie/internal/trip-member"
+	"tribbie/internal/user"
 	"tribbie/pkg/accesslog"
 	"tribbie/pkg/dbcontext"
 	"tribbie/pkg/log"
@@ -139,6 +140,7 @@ func buildHandler(logger log.Logger, db *dbcontext.DB, cfg *config.Config) http.
 
 	auth.RegisterHandlers(rg.Group(""),
 		auth.NewService(cfg.JWTSigningKey, cfg.JWTExpiration, logger),
+		user.NewService(user.NewRepository(db, logger), logger),
 		logger,
 	)
 

@@ -5,21 +5,23 @@ import (
 )
 
 // User represents a user.
-type User struct {
-	ID   string
-	Name string
-	AppleID string
-	Email string
+type UserDefault struct {
+	ID        string    `json:"id"`
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	Password  string    `json:"password"`
+	AppleId   string    `json:"apple_id"`
+	DeviceId  string    `json:"device_id"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
 // GetID returns the user ID.
-func (u User) GetID() string {
+func (u UserDefault) GetID() string {
 	return u.ID
 }
 
 // GetName returns the user name.
-func (u User) GetName() string {
-	return u.Name
+func (u UserDefault) GetEmail() string {
+	return u.Email
 }

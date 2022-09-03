@@ -93,7 +93,7 @@ func (r resource) query(c *routing.Context) error {
 		return err
 	}
 	pages.Items = transactions
-	return c.Write(pages)
+	return c.Write(transactions)
 }
 
 func (r resource) create(c *routing.Context) error {

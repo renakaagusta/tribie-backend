@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 	"tribbie/internal/entity"
-	"tribbie/internal/errors"
 	"tribbie/pkg/log"
 
 	"github.com/dgrijalva/jwt-go"
@@ -12,9 +11,17 @@ import (
 
 // Service encapsulates the authentication logic.
 type Service interface {
-	// authenticate authenticates a user using username and password.
-	// It returns a JWT token if authentication succeeds. Otherwise, an error is returned.
-	Login(ctx context.Context, username, password string) (string, error)
+	Login(ctx context.Context, email, password string) (string, error)
+}
+
+type RegisterRequest struct {
+	Email       string `json:"email"`
+	Username    string `json:"email"`
+	Password    string `json:"password"`
+	AppleId     string `json:"apple_id"`
+	DeviceId    string `json:"device_id"`
+	Description string `json:"description"`
+	UserPaidId  string `json:"user_paid_id"`
 }
 
 // Identity represents an authenticated user identity.
@@ -22,7 +29,7 @@ type Identity interface {
 	// GetID returns the user ID.
 	GetID() string
 	// GetName returns the user name.
-	GetName() string
+	GetEmail() string
 }
 
 type service struct {
@@ -36,35 +43,19 @@ func NewService(signingKey string, tokenExpiration int, logger log.Logger) Servi
 	return service{signingKey, tokenExpiration, logger}
 }
 
-// Login authenticates a user and generates a JWT token if authentication succeeds.
-// Otherwise, an error is returned.
-func (s service) Login(ctx context.Context, username, password string) (string, error) {
-	if identity := s.authenticate(ctx, username, password); identity != nil {
-		return s.generateJWT(identity)
-	}
-	return "", errors.Unauthorized("")
+func (s service) Login(ctx context.Context, email, password string) (string, error) {
+	identity := s.authenticate(ctx, email, password)
+	return s.generateJWT(identity)
 }
 
-// authenticate authenticates a user using username and password.
-// If username and password are correct, an identity is returned. Otherwise, nil is returned.
-func (s service) authenticate(ctx context.Context, username, password string) Identity {
-	logger := s.logger.With(ctx, "user", username)
-
-	// TODO: the following authentication logic is only for demo purpose
-	if username == "tribie" && password == "rahasia" {
-		logger.Infof("authentication successful")
-		return entity.User{ID: "100", Name: "demo"}
-	}
-
-	logger.Infof("authentication failed")
-	return nil
+func (s service) authenticate(ctx context.Context, email, password string) Identity {
+	return entity.UserDefault{ID: email, Email: email}
 }
 
-// generateJWT generates a JWT that encodes an identity.
 func (s service) generateJWT(identity Identity) (string, error) {
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id":   identity.GetID(),
-		"name": identity.GetName(),
-		"exp":  time.Now().Add(time.Duration(s.tokenExpiration) * time.Hour).Unix(),
+		"id":    identity.GetID(),
+		"email": identity.GetEmail(),
+		"exp":   time.Now().Add(time.Duration(s.tokenExpiration) * time.Hour).Unix(),
 	}).SignedString([]byte(s.signingKey))
 }

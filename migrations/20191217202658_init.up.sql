@@ -1,8 +1,8 @@
 CREATE TABLE users
 (
     id          VARCHAR PRIMARY KEY,
-    username    VARCHAR NOT NULL,
-    name        VARCHAR,
+    email       VARCHAR NOT NULL,
+    username    VARCHAR,
     password    VARCHAR,
     apple_id    VARCHAR,
     device_id   VARCHAR,
@@ -31,8 +31,10 @@ CREATE TABLE transaction
 (
     id          VARCHAR PRIMARY KEY,
     trip_id     VARCHAR,
+    user_paid_id VARCHAR,
     title       VARCHAR,
     description VARCHAR,
+    status      VARCHAR,
     created_at  TIMESTAMP NOT NULL,
     updated_at  TIMESTAMP NOT NULL
 );
@@ -64,6 +66,8 @@ CREATE TABLE transaction_payment
     trip_id         VARCHAR,
     trip_member_id  VARCHAR,
     transaction_id  VARCHAR,
+    user_from_id    VARCHAR,
+    user_to_id      VARCHAR,
     nominal         INT NOT NULL,
     created_at      TIMESTAMP NOT NULL,
     updated_at      TIMESTAMP NOT NULL

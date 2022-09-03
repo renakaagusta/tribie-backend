@@ -1,11 +1,12 @@
 package transactionItem
 
 import (
-	"github.com/go-ozzo/ozzo-routing/v2"
+	"net/http"
 	"tribbie/internal/errors"
 	"tribbie/pkg/log"
 	"tribbie/pkg/pagination"
-	"net/http"
+
+	routing "github.com/go-ozzo/ozzo-routing/v2"
 )
 
 // RegisterHandlers sets up the routing of the HTTP handlers.
@@ -48,7 +49,7 @@ func (r resource) query(c *routing.Context) error {
 		return err
 	}
 	pages.Items = transactionItems
-	return c.Write(pages)
+	return c.Write(transactionItems)
 }
 
 func (r resource) create(c *routing.Context) error {

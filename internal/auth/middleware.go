@@ -2,12 +2,13 @@ package auth
 
 import (
 	"context"
+	"net/http"
+	"tribbie/internal/entity"
+	"tribbie/internal/errors"
+
 	"github.com/dgrijalva/jwt-go"
 	routing "github.com/go-ozzo/ozzo-routing/v2"
 	"github.com/go-ozzo/ozzo-routing/v2/auth"
-	"tribbie/internal/entity"
-	"tribbie/internal/errors"
-	"net/http"
 )
 
 // Handler returns a JWT-based authentication middleware.
@@ -17,7 +18,7 @@ func Handler(verificationKey string) routing.Handler {
 
 // handleToken stores the user identity in the request context so that it can be accessed elsewhere.
 func handleToken(c *routing.Context, token *jwt.Token) error {
-	ctx := WithUser(
+	ctx := WithUserDefault(
 		c.Request.Context(),
 		token.Claims.(jwt.MapClaims)["id"].(string),
 		token.Claims.(jwt.MapClaims)["name"].(string),
@@ -33,14 +34,14 @@ const (
 )
 
 // WithUser returns a context that contains the user identity from the given JWT.
-func WithUser(ctx context.Context, id, name string) context.Context {
-	return context.WithValue(ctx, userKey, entity.User{ID: id, Name: name})
+func WithUserDefault(ctx context.Context, id, username string) context.Context {
+	return context.WithValue(ctx, userKey, entity.UserDefault{ID: id, Username: username})
 }
 
 // CurrentUser returns the user identity from the given context.
 // Nil is returned if no user identity is found in the context.
-func CurrentUser(ctx context.Context) Identity {
-	if user, ok := ctx.Value(userKey).(entity.User); ok {
+func CurrentUserDefault(ctx context.Context) Identity {
+	if user, ok := ctx.Value(userKey).(entity.UserDefault); ok {
 		return user
 	}
 	return nil
@@ -54,7 +55,7 @@ func MockAuthHandler(c *routing.Context) error {
 	if c.Request.Header.Get("Authorization") != "TEST" {
 		return errors.Unauthorized("")
 	}
-	ctx := WithUser(c.Request.Context(), "100", "Tester")
+	ctx := WithUserDefault(c.Request.Context(), "100", "Tester")
 	c.Request = c.Request.WithContext(ctx)
 	return nil
 }
