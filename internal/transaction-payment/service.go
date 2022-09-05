@@ -31,6 +31,8 @@ type CreateTransactionPaymentRequest struct {
 	TripId        string `json:"trip_id"`
 	TripMemberId  string `json:"trip_member_id"`
 	TransactionId string `json:"transaction_id"`
+	UserFromId    string `json:"user_from_id"`
+	UserToId      string `json:"user_to_id"`
 	Nominal       int64  `json:"nominal"`
 }
 
@@ -49,6 +51,8 @@ type UpdateTransactionPaymentRequest struct {
 	TripId        string `json:"trip_id"`
 	TripMemberId  string `json:"trip_member_id"`
 	TransactionId string `json:"transaction_id"`
+	UserFromId    string `json:"user_from_id"`
+	UserToId      string `json:"user_to_id"`
 	Nominal       int64  `json:"transaction_nominal"`
 }
 
@@ -92,6 +96,8 @@ func (s service) Create(ctx context.Context, req CreateTransactionPaymentRequest
 		TripId:        req.TripId,
 		TripMemberId:  req.TripMemberId,
 		TransactionId: req.TransactionId,
+		UserFromId:    req.UserFromId,
+		UserToId:      req.UserToId,
 		Nominal:       req.Nominal,
 		CreatedAt:     now,
 		UpdatedAt:     now,
@@ -115,6 +121,8 @@ func (s service) Update(ctx context.Context, id string, req UpdateTransactionPay
 	transactionPayment.TripId = req.TripId
 	transactionPayment.TripMemberId = req.TripMemberId
 	transactionPayment.TransactionId = req.TransactionId
+	transactionPayment.UserFromId = req.UserFromId
+	transactionPayment.UserToId = req.UserToId
 	transactionPayment.Nominal = req.Nominal
 	transactionPayment.UpdatedAt = time.Now()
 
