@@ -32,6 +32,7 @@ type CreateTransactionRequest struct {
 	GrandTotal    int    `json:grand_total`
 	SubTotal      int    `json:sub_total`
 	ServiceCharge int    `json:service_charge`
+	Status        string `json:status`
 	Description   string `json:"description"`
 	UserPaidId    string `json:"user_paid_id"`
 }
@@ -51,6 +52,7 @@ type UpdateTransactionRequest struct {
 	GrandTotal    int    `json:grand_total`
 	SubTotal      int    `json:sub_total`
 	ServiceCharge int    `json:service_charge`
+	Status        string `json:status`
 	Description   string `json:"description"`
 	UserPaidId    string `json:"user_paid_id"`
 }
@@ -94,10 +96,11 @@ func (s service) Create(ctx context.Context, req CreateTransactionRequest) (Tran
 		TripId:        req.TripId,
 		UserPaidId:    req.UserPaidId,
 		Title:         req.Title,
+		Description:   req.Description,
 		GrandTotal:    req.GrandTotal,
 		SubTotal:      req.SubTotal,
 		ServiceCharge: req.ServiceCharge,
-		Description:   req.Description,
+		Status:        req.Status,
 		CreatedAt:     now,
 		UpdatedAt:     now,
 	})
@@ -124,6 +127,7 @@ func (s service) Update(ctx context.Context, id string, req UpdateTransactionReq
 	transaction.GrandTotal = req.GrandTotal
 	transaction.SubTotal = req.SubTotal
 	transaction.ServiceCharge = req.ServiceCharge
+	transaction.Status = req.Status
 	transaction.UpdatedAt = time.Now()
 
 	if err := s.repo.Update(ctx, transaction.Transaction); err != nil {

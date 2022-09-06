@@ -48,6 +48,7 @@ CREATE TABLE transaction_item
     transaction_id  VARCHAR,
     title           VARCHAR NOT NULL,
     description     VARCHAR,
+    quantity        INT,
     price           INT NOT NULL,
     created_at      TIMESTAMP NOT NULL,
     updated_at      TIMESTAMP NOT NULL

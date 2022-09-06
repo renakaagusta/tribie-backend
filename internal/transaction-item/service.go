@@ -32,6 +32,7 @@ type CreateTransactionItemRequest struct {
 	TransactionId string `json:"transaction_id"`
 	Title         string `json:"title"`
 	Description   string `json:"description"`
+	Quantity      int    `json:"quantity"`
 	Price         int64  `json:"price"`
 }
 
@@ -50,6 +51,7 @@ type UpdateTransactionItemRequest struct {
 	TransactionId string `json:"transaction_id"`
 	Title         string `json:"title"`
 	Description   string `json:"description"`
+	Quantity      int    `json:"quantity"`
 	Price         int64  `json:"price"`
 }
 
@@ -95,6 +97,7 @@ func (s service) Create(ctx context.Context, req CreateTransactionItemRequest) (
 		Title:         req.Title,
 		Description:   req.Description,
 		Price:         req.Price,
+		Quantity:      req.Quantity,
 		CreatedAt:     now,
 		UpdatedAt:     now,
 	})
@@ -119,6 +122,7 @@ func (s service) Update(ctx context.Context, id string, req UpdateTransactionIte
 	transactionItem.Title = req.Title
 	transactionItem.Description = req.Description
 	transactionItem.Price = req.Price
+	transactionItem.Quantity = req.Quantity
 	transactionItem.UpdatedAt = time.Now()
 
 	if err := s.repo.Update(ctx, transactionItem.TransactionItem); err != nil {
