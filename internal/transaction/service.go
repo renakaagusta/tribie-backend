@@ -27,10 +27,13 @@ type Transaction struct {
 
 // CreateTransactionRequest represents an transaction creation request.
 type CreateTransactionRequest struct {
-	TripId      string `json:"trip_id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	UserPaidId  string `json:"user_paid_id"`
+	TripId        string `json:"trip_id"`
+	Title         string `json:"title"`
+	GrandTotal    int    `json:grand_total`
+	SubTotal      int    `json:sub_total`
+	ServiceCharge int    `json:service_charge`
+	Description   string `json:"description"`
+	UserPaidId    string `json:"user_paid_id"`
 }
 
 // Validate validates the CreateTransactionRequest fields.
@@ -43,10 +46,13 @@ func (m CreateTransactionRequest) Validate() error {
 
 // UpdateTransactionRequest represents an transaction update request.
 type UpdateTransactionRequest struct {
-	TripId      string `json:"trip_id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	UserPaidId  string `json:"user_paid_id"`
+	TripId        string `json:"trip_id"`
+	Title         string `json:"title"`
+	GrandTotal    int    `json:grand_total`
+	SubTotal      int    `json:sub_total`
+	ServiceCharge int    `json:service_charge`
+	Description   string `json:"description"`
+	UserPaidId    string `json:"user_paid_id"`
 }
 
 // Validate validates the CreateTransactionRequest fields.
@@ -84,13 +90,16 @@ func (s service) Create(ctx context.Context, req CreateTransactionRequest) (Tran
 	id := entity.GenerateID()
 	now := time.Now()
 	err := s.repo.Create(ctx, entity.Transaction{
-		ID:          id,
-		TripId:      req.TripId,
-		UserPaidId:  req.UserPaidId,
-		Title:       req.Title,
-		Description: req.Description,
-		CreatedAt:   now,
-		UpdatedAt:   now,
+		ID:            id,
+		TripId:        req.TripId,
+		UserPaidId:    req.UserPaidId,
+		Title:         req.Title,
+		GrandTotal:    req.GrandTotal,
+		SubTotal:      req.SubTotal,
+		ServiceCharge: req.ServiceCharge,
+		Description:   req.Description,
+		CreatedAt:     now,
+		UpdatedAt:     now,
 	})
 	if err != nil {
 		return Transaction{}, err
@@ -112,6 +121,9 @@ func (s service) Update(ctx context.Context, id string, req UpdateTransactionReq
 	transaction.UserPaidId = req.UserPaidId
 	transaction.Title = req.Title
 	transaction.Description = req.Description
+	transaction.GrandTotal = req.GrandTotal
+	transaction.SubTotal = req.SubTotal
+	transaction.ServiceCharge = req.ServiceCharge
 	transaction.UpdatedAt = time.Now()
 
 	if err := s.repo.Update(ctx, transaction.Transaction); err != nil {

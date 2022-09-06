@@ -20,7 +20,7 @@ func RegisterHandlers(
 	r.Get("/users/<id>", res.get)
 	r.Get("/users", res.query)
 
-	r.Use(authHandler)
+	// r.Use(authHandler)
 
 	r.Post("/users", res.create)
 	r.Put("/users/<id>", res.update)

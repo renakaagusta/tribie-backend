@@ -16,7 +16,7 @@ func RegisterHandlers(r *routing.RouteGroup, service Service, authHandler routin
 	r.Get("/transaction-items/<id>", res.get)
 	r.Get("/transaction-items", res.query)
 
-	r.Use(authHandler)
+	// r.Use(authHandler)
 
 	r.Post("/transaction-items", res.create)
 	r.Put("/transaction-items/<id>", res.update)

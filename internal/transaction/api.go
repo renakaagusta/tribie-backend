@@ -29,9 +29,6 @@ func RegisterHandlers(
 	r.Get("/transactions/<id>/transaction-items", res.queryItemList)
 	r.Get("/transactions/<id>/transaction-expenses", res.queryExpensesList)
 	r.Get("/transactions/<id>/transaction-payments", res.queryPaymentList)
-
-	r.Use(authHandler)
-
 	r.Post("/transactions", res.create)
 	r.Put("/transactions/<id>", res.update)
 	r.Delete("/transactions/<id>", res.delete)
