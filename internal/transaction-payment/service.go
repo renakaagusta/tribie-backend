@@ -29,7 +29,6 @@ type TransactionPayment struct {
 // CreateTransactionPaymentRequest represents an transactionPayment creation request.
 type CreateTransactionPaymentRequest struct {
 	TripId        string `json:"trip_id"`
-	TripMemberId  string `json:"trip_member_id"`
 	TransactionId string `json:"transaction_id"`
 	UserFromId    string `json:"user_from_id"`
 	UserToId      string `json:"user_to_id"`
@@ -40,7 +39,6 @@ type CreateTransactionPaymentRequest struct {
 func (m CreateTransactionPaymentRequest) Validate() error {
 	return validation.ValidateStruct(&m,
 		validation.Field(&m.TripId, validation.Required, validation.Length(0, 128)),
-		validation.Field(&m.TripMemberId, validation.Required, validation.Length(0, 128)),
 		validation.Field(&m.TransactionId, validation.Required, validation.Length(0, 128)),
 		validation.Field(&m.Nominal, validation.Required),
 	)
@@ -94,7 +92,7 @@ func (s service) Create(ctx context.Context, req CreateTransactionPaymentRequest
 	err := s.repo.Create(ctx, entity.TransactionPayment{
 		ID:            id,
 		TripId:        req.TripId,
-		TripMemberId:  req.TripMemberId,
+		TripMemberId:  "",
 		TransactionId: req.TransactionId,
 		UserFromId:    req.UserFromId,
 		UserToId:      req.UserToId,
