@@ -29,10 +29,10 @@ type Transaction struct {
 type CreateTransactionRequest struct {
 	TripId        string `json:"trip_id"`
 	Title         string `json:"title"`
-	GrandTotal    int    `json:grand_total`
-	SubTotal      int    `json:sub_total`
-	ServiceCharge int    `json:service_charge`
-	Status        string `json:status`
+	GrandTotal    int    `json:"grand_total"`
+	SubTotal      int    `json:"sub_total"`
+	ServiceCharge int    `json:"service_charge"`
+	Status        string `json:"status"`
 	Description   string `json:"description"`
 	UserPaidId    string `json:"user_paid_id"`
 }
@@ -49,10 +49,10 @@ func (m CreateTransactionRequest) Validate() error {
 type UpdateTransactionRequest struct {
 	TripId        string `json:"trip_id"`
 	Title         string `json:"title"`
-	GrandTotal    int    `json:grand_total`
-	SubTotal      int    `json:sub_total`
-	ServiceCharge int    `json:service_charge`
-	Status        string `json:status`
+	GrandTotal    int    `json:"grand_total"`
+	SubTotal      int    `json:"sub_total"`
+	ServiceCharge int    `json:"service_charge"`
+	Status        string `json:"status"`
 	Description   string `json:"description"`
 	UserPaidId    string `json:"user_paid_id"`
 }
