@@ -37,6 +37,7 @@ CREATE TABLE transaction
     service_charge INT,
     title       VARCHAR,
     description VARCHAR,
+    method      VARCHAR,
     status      VARCHAR,
     created_at  TIMESTAMP NOT NULL,
     updated_at  TIMESTAMP NOT NULL
