@@ -31,6 +31,7 @@ type CreateTransactionRequest struct {
 	Title         string `json:"title"`
 	GrandTotal    int    `json:"grand_total"`
 	SubTotal      int    `json:"sub_total"`
+	Method        string `json:"method"`
 	ServiceCharge int    `json:"service_charge"`
 	Status        string `json:"status"`
 	Description   string `json:"description"`
@@ -51,6 +52,7 @@ type UpdateTransactionRequest struct {
 	Title         string `json:"title"`
 	GrandTotal    int    `json:"grand_total"`
 	SubTotal      int    `json:"sub_total"`
+	Method        string `json:"method"`
 	ServiceCharge int    `json:"service_charge"`
 	Status        string `json:"status"`
 	Description   string `json:"description"`
@@ -99,6 +101,7 @@ func (s service) Create(ctx context.Context, req CreateTransactionRequest) (Tran
 		Description:   req.Description,
 		GrandTotal:    req.GrandTotal,
 		SubTotal:      req.SubTotal,
+		Method:        req.Method,
 		ServiceCharge: req.ServiceCharge,
 		Status:        req.Status,
 		CreatedAt:     now,
@@ -126,6 +129,7 @@ func (s service) Update(ctx context.Context, id string, req UpdateTransactionReq
 	transaction.Description = req.Description
 	transaction.GrandTotal = req.GrandTotal
 	transaction.SubTotal = req.SubTotal
+	transaction.Method = req.Method
 	transaction.ServiceCharge = req.ServiceCharge
 	transaction.Status = req.Status
 	transaction.UpdatedAt = time.Now()
