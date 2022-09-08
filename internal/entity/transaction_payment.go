@@ -12,6 +12,7 @@ type TransactionPayment struct {
 	UserFromId    string    `json:"user_from_id"`
 	UserToId      string    `json:"user_to_id"`
 	Nominal       int64     `json:"nominal"`
+	Status        string    `json:"status"`
 	CreatedAt     time.Time `json:"created_at"`
 	UpdatedAt     time.Time `json:"updated_at"`
 }

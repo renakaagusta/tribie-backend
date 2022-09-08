@@ -30,6 +30,7 @@ type CreateTripMemberRequest struct {
 	TripId string `json:"trip_id"`
 	UserId string `json:"user_id"`
 	Name   string `json:"name"`
+	Status string `json:"status"`
 }
 
 // Validate validates the CreateTripMemberRequest fields.
@@ -46,6 +47,7 @@ type UpdateTripMemberRequest struct {
 	TripId string `json:"trip_id"`
 	UserId string `json:"user_id"`
 	Name   string `json:"name"`
+	Status string `json:"status"`
 }
 
 // Validate validates the CreateTripMemberRequest fields.
@@ -88,6 +90,7 @@ func (s service) Create(ctx context.Context, req CreateTripMemberRequest) (TripM
 		TripId:    req.TripId,
 		UserId:    req.UserId,
 		Name:      req.Name,
+		Status:    req.Status,
 		CreatedAt: now,
 		UpdatedAt: now,
 	})
@@ -110,6 +113,7 @@ func (s service) Update(ctx context.Context, id string, req UpdateTripMemberRequ
 	tripMember.TripId = req.TripId
 	tripMember.UserId = req.UserId
 	tripMember.Name = req.Name
+	tripMember.Status = req.Status
 	tripMember.UpdatedAt = time.Now()
 
 	if err := s.repo.Update(ctx, tripMember.TripMember); err != nil {

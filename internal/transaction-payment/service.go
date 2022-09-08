@@ -32,6 +32,7 @@ type CreateTransactionPaymentRequest struct {
 	TransactionId string `json:"transaction_id"`
 	UserFromId    string `json:"user_from_id"`
 	UserToId      string `json:"user_to_id"`
+	Status        string `json:"status"`
 	Nominal       int64  `json:"nominal"`
 }
 
@@ -51,6 +52,7 @@ type UpdateTransactionPaymentRequest struct {
 	TransactionId string `json:"transaction_id"`
 	UserFromId    string `json:"user_from_id"`
 	UserToId      string `json:"user_to_id"`
+	Status        string `json:"status"`
 	Nominal       int64  `json:"transaction_nominal"`
 }
 
@@ -58,7 +60,6 @@ type UpdateTransactionPaymentRequest struct {
 func (m UpdateTransactionPaymentRequest) Validate() error {
 	return validation.ValidateStruct(&m,
 		validation.Field(&m.TripId, validation.Required, validation.Length(0, 128)),
-		validation.Field(&m.TripMemberId, validation.Required, validation.Length(0, 128)),
 		validation.Field(&m.TransactionId, validation.Required, validation.Length(0, 128)),
 	)
 }
@@ -122,6 +123,7 @@ func (s service) Update(ctx context.Context, id string, req UpdateTransactionPay
 	transactionPayment.UserFromId = req.UserFromId
 	transactionPayment.UserToId = req.UserToId
 	transactionPayment.Nominal = req.Nominal
+	transactionPayment.Status = req.Status
 	transactionPayment.UpdatedAt = time.Now()
 
 	if err := s.repo.Update(ctx, transactionPayment.TransactionPayment); err != nil {
