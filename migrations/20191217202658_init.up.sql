@@ -74,6 +74,7 @@ CREATE TABLE transaction_payment
     user_from_id    VARCHAR,
     user_to_id      VARCHAR,
     nominal         INT NOT NULL,
+    status          VARCHAR,
     created_at      TIMESTAMP NOT NULL,
     updated_at      TIMESTAMP NOT NULL
 );

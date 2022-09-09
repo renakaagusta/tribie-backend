@@ -98,6 +98,7 @@ func (s service) Create(ctx context.Context, req CreateTransactionPaymentRequest
 		UserFromId:    req.UserFromId,
 		UserToId:      req.UserToId,
 		Nominal:       req.Nominal,
+		Status:        req.Status,
 		CreatedAt:     now,
 		UpdatedAt:     now,
 	})
