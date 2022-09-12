@@ -44,7 +44,7 @@ func (m CreateUserRequest) Validate() error {
 // UpdateUserRequest represents an user update request.
 type UpdateUserRequest struct {
 	Email    string `json:"email"`
-	Username string `json:"UserDefault{"`
+	Username string `json:"username"`
 	Password string `json:"password"`
 	AppleId  string `json:"apple_id"`
 	DeviceId string `json:"device_id"`
