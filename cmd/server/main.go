@@ -144,6 +144,12 @@ func buildHandler(logger log.Logger, db *dbcontext.DB, cfg *config.Config) http.
 		logger,
 	)
 
+	user.RegisterHandlers(rg.Group(""),
+		user.NewService(user.NewRepository(db, logger), logger),
+		authHandler,
+		logger,
+	)
+
 	return router
 }
 

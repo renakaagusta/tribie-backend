@@ -80,17 +80,15 @@ func (r repository) Delete(ctx context.Context, id string) error {
 
 func (r repository) Count(ctx context.Context) (int, error) {
 	var count int
-	err := r.db.With(ctx).Select("COUNT(*)").From("user").Row(&count)
+	err := r.db.With(ctx).Select("COUNT(*)").From("user_default").Row(&count)
 	return count, err
 }
 
 func (r repository) Query(ctx context.Context, offset, limit int) ([]entity.UserDefault, error) {
 	var users []entity.UserDefault
-	err := r.db.With(ctx).
-		Select().
-		OrderBy("id").
-		Offset(int64(offset)).
-		Limit(int64(limit)).
-		All(&users)
+
+	q := r.db.DB().NewQuery("SELECT * FROM user_default")
+	err := q.All(&users)
+
 	return users, err
 }
